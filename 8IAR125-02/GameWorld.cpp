@@ -1,5 +1,6 @@
 #include "GameWorld.h"
 #include "Vehicle.h"
+#include "AgentPoursuiveur.h"
 #include "constants.h"
 #include "Obstacle.h"
 #include "2d/Geometry.h"
@@ -87,8 +88,26 @@ GameWorld::GameWorld(int cx, int cy):
    for (int i=0; i<Prm.NumAgents-1; ++i)
   {
     m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
-
   }
+
+   AgentPoursuiveur* ap_vehicle = new AgentPoursuiveur(this,
+	   Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0, cy / 2.0 + RandomClamped()*cy / 2.0),                 //initial position
+	   RandFloat()*TwoPi,        //start rotation
+	   Vector2D(0, 0),            //velocity
+	   Prm.VehicleMass,          //mass
+	   Prm.MaxSteeringForce,     //max force
+	   Prm.MaxSpeed,             //max velocity
+	   Prm.MaxTurnRatePerSecond, //max turn rate
+	   Prm.VehicleScale,		 //Scale
+	   m_Vehicles[Prm.NumAgents - 1]); //Vehicle to pursuit
+
+   m_Vehicles.push_back(ap_vehicle);
+
+   //add it to the cell subdivision
+   m_pCellSpace->AddEntity(ap_vehicle);
+
+   ap_vehicle->Go();
+
 #endif
  
   //create any obstacles or walls
