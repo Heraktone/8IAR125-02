@@ -18,9 +18,10 @@ LeaderAgent::LeaderAgent(	GameWorld*	world,
 			max_force,
 			max_speed,
 			max_turn_rate,
-			scale)
+			scale,
+			RenderColor::Leader)
 {
-	Steering()->WanderOn();
+	Steering()->WanderOn();	
 }
 
 
