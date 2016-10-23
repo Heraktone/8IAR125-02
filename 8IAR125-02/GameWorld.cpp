@@ -65,6 +65,31 @@ GameWorld::GameWorld(int cx, int cy):
 	m_Vehicles.push_back(pLeader);
 	m_pCellSpace->AddEntity(pLeader);
 
+	Vehicle* queuleuleu[21];
+	queuleuleu[0] = pLeader;
+	for (size_t i = 1; i < 21; i++)
+	{
+		AgentPoursuiveur* ap_vehicle = new AgentPoursuiveur(this,
+			Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0, cy / 2.0 + RandomClamped()*cy / 2.0),                 //initial position
+			RandFloat()*TwoPi,        //start rotation
+			Vector2D(0, 0),            //velocity
+			Prm.VehicleMass,          //mass
+			Prm.MaxSteeringForce,     //max force
+			Prm.MaxSpeed,             //max velocity
+			Prm.MaxTurnRatePerSecond, //max turn rate
+			Prm.VehicleScale,		 //Scale
+			pLeader); //Vehicle to pursuit
+
+		m_Vehicles.push_back(queuleuleu[i-1]);
+
+		queuleuleu[i] = ap_vehicle;
+
+		//add it to the cell subdivision
+		m_pCellSpace->AddEntity(ap_vehicle);
+
+		ap_vehicle->Go();
+	}
+
 	//setup the agents
   /*for (int a=0; a<Prm.NumAgents; ++a)
   {
@@ -105,24 +130,6 @@ GameWorld::GameWorld(int cx, int cy):
   {
     m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
   }*/
-
-   AgentPoursuiveur* ap_vehicle = new AgentPoursuiveur(this,
-	   Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0, cy / 2.0 + RandomClamped()*cy / 2.0),                 //initial position
-	   RandFloat()*TwoPi,        //start rotation
-	   Vector2D(0, 0),            //velocity
-	   Prm.VehicleMass,          //mass
-	   Prm.MaxSteeringForce,     //max force
-	   Prm.MaxSpeed,             //max velocity
-	   Prm.MaxTurnRatePerSecond, //max turn rate
-	   Prm.VehicleScale,		 //Scale
-	   pLeader); //Vehicle to pursuit
-
-   m_Vehicles.push_back(ap_vehicle);
-
-   //add it to the cell subdivision
-   m_pCellSpace->AddEntity(ap_vehicle);
-
-   ap_vehicle->Go();
 
 #endif
  
