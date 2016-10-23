@@ -93,19 +93,19 @@ GameWorld::GameWorld(int cx, int cy):
   }
 
 
-#define SHOAL
+#define SHOAL false
 #ifdef SHOAL
-  m_Vehicles[Prm.NumAgents-1]->Steering()->FlockingOff();
-  m_Vehicles[Prm.NumAgents-1]->SetScale(Vector2D(10, 10));
-  m_Vehicles[Prm.NumAgents-1]->Steering()->WanderOn();
-  m_Vehicles[Prm.NumAgents-1]->SetMaxSpeed(70);
+  //m_Vehicles[Prm.NumAgents-1]->Steering()->FlockingOff();
+  //m_Vehicles[Prm.NumAgents-1]->SetScale(Vector2D(10, 10));
+  //m_Vehicles[Prm.NumAgents-1]->Steering()->WanderOn();
+  //m_Vehicles[Prm.NumAgents-1]->SetMaxSpeed(70);
 
 
-   for (int i=0; i<Prm.NumAgents-1; ++i)
-  {
-    m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
+  // for (int i=0; i<Prm.NumAgents-1; ++i)
+  //{
+  //  m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
 
-  }
+  //}
 #endif
  
   //create any obstacles or walls
