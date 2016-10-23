@@ -11,7 +11,7 @@ AgentPoursuiveur::AgentPoursuiveur(GameWorld* world,
 	double    max_speed,
 	double    max_turn_rate,
 	double    scale,
-	Vehicle*   v_agent_leader) : Vehicle(world, position, rotation, velocity, mass, max_force, max_speed, max_turn_rate, scale)
+	Vehicle*   v_agent_leader) : Vehicle(world, position, rotation, velocity, mass, max_force, max_speed, max_turn_rate, scale, RenderColor::Follower)
 {
 	this->v_agent_leader = v_agent_leader;
 }
