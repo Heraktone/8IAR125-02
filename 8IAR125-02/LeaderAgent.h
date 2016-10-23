@@ -1,6 +1,5 @@
 #pragma once
 #include "Vehicle.h"
-#include "SteeringBehaviors.h"
 class LeaderAgent :
 	public Vehicle
 {

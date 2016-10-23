@@ -1,4 +1,5 @@
 #include "LeaderAgent.h"
+#include "SteeringBehaviors.h"
 
 LeaderAgent::LeaderAgent(	GameWorld*	world,
 							Vector2D	position,
