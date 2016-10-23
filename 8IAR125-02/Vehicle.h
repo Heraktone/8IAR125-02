@@ -25,14 +25,17 @@ class SteeringBehavior;
 
 class Vehicle : public MovingEntity
 {
-
-private:
-	enum RenderColor
+protected:
+	enum class RenderColor
 	{
 		Player,
 		Leader,
-		Follower
+		Follower,
+		None
 	};
+private:
+
+	RenderColor renderingColor;
 
 	//a pointer to the world data. So a vehicle can access any obstacle,
 	//path, wall or agent data
@@ -81,6 +84,16 @@ public:
 		double    max_speed,
 		double    max_turn_rate,
 		double    scale);
+	Vehicle(GameWorld* world,
+		Vector2D position,
+		double    rotation,
+		Vector2D velocity,
+		double    mass,
+		double    max_force,
+		double    max_speed,
+		double    max_turn_rate,
+		double    scale,
+		RenderColor color);
 
 	~Vehicle();
 
