@@ -65,8 +65,6 @@ GameWorld::GameWorld(int cx, int cy):
 	m_Vehicles.push_back(pLeader);
 	m_pCellSpace->AddEntity(pLeader);
 
-	Vehicle* queuleuleu[21];
-	queuleuleu[0] = pLeader;
 	for (size_t i = 1; i < 21; i++)
 	{
 		AgentPoursuiveur* ap_vehicle = new AgentPoursuiveur(this,
@@ -78,11 +76,9 @@ GameWorld::GameWorld(int cx, int cy):
 			Prm.MaxSpeed,             //max velocity
 			Prm.MaxTurnRatePerSecond, //max turn rate
 			Prm.VehicleScale,		 //Scale
-			pLeader); //Vehicle to pursuit
+			m_Vehicles[i-1]); //Vehicle to pursuit
 
-		m_Vehicles.push_back(queuleuleu[i-1]);
-
-		queuleuleu[i] = ap_vehicle;
+		m_Vehicles.push_back(ap_vehicle);
 
 		//add it to the cell subdivision
 		m_pCellSpace->AddEntity(ap_vehicle);
