@@ -18,13 +18,8 @@ AgentPoursuiveur::AgentPoursuiveur(GameWorld* world,
 
 void AgentPoursuiveur::Go() {
 	this->Steering()->SeparationOn();
-	this->Steering()->OffsetPursuitOn(v_agent_leader, Vector2D(-5, -5));
+	this->Steering()->OffsetPursuitOn(v_agent_leader, Vector2D(-5, 0));
 }
-
-void AgentPoursuiveur::GoV() {
-	this->Steering()->FlockingVOn(v_agent_leader);
-}
-
 
 AgentPoursuiveur::~AgentPoursuiveur()
 {

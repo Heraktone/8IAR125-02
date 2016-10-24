@@ -55,7 +55,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		cy / 2.0 + RandomClamped()*cy / 2.0);
 
 	Vehicle* pLeader = nullptr;
-	pLeader = new PlayerAgent(this,
+	pLeader = new LeaderAgent(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
 		Vector2D(100, 100),            //velocity
@@ -89,7 +89,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		ap_vehicle->Go();
 	}
 
-	pLeader = new LeaderAgent(this,
+	pLeader = new PlayerAgent(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
 		Vector2D(0, 0),            //velocity
@@ -106,7 +106,7 @@ GameWorld::GameWorld(int cx, int cy) :
 	// V flocking
 	for (size_t i = 1; i < 21; i++)
 	{
-		AgentPoursuiveur* ap_vehicle = new AgentPoursuiveur(this,
+		Vehicle* ap_vehicle = new Vehicle(this,
 			Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0, cy / 2.0 + RandomClamped()*cy / 2.0),                 //initial position
 			RandFloat()*TwoPi,        //start rotation
 			Vector2D(0, 0),            //velocity
@@ -114,15 +114,14 @@ GameWorld::GameWorld(int cx, int cy) :
 			Prm.MaxSteeringForce,     //max force
 			Prm.MaxSpeed,             //max velocity
 			Prm.MaxTurnRatePerSecond, //max turn rate
-			Prm.VehicleScale,		 //Scale
-			m_Vehicles.back()); //Vehicle to pursuit
-
+			Prm.VehicleScale		 //Scale
+		);
 		m_Vehicles.push_back(ap_vehicle);
 
 		//add it to the cell subdivision
 		m_pCellSpace->AddEntity(ap_vehicle);
 
-		ap_vehicle->GoV();
+		ap_vehicle->Steering()->FlockingVOn();
 	}
 
 	//setup the agents
