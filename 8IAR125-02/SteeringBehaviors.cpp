@@ -91,8 +91,8 @@ Vector2D SteeringBehavior::Calculate()
   //if switched on. If not, use the standard tagging system
   if (!isSpacePartitioningOn())
   {
-    //tag neighbors if any of the following 3 group behaviors are switched on
-    if (On(separation) || On(allignment) || On(cohesion))
+    //tag neighbors if any of the following 4 group behaviors are switched on
+    if (On(separation) || On(allignment) || On(cohesion) || On(go_close))
     {
       m_pVehicle->World()->TagVehiclesWithinViewRange(m_pVehicle, m_dViewDistance);
     }
@@ -101,7 +101,7 @@ Vector2D SteeringBehavior::Calculate()
   {
     //calculate neighbours in cell-space if any of the following 3 group
     //behaviors are switched on
-    if (On(separation) || On(allignment) || On(cohesion))
+    if (On(separation) || On(allignment) || On(cohesion) || On(go_close))
     {
       m_pVehicle->World()->CellSpace()->CalculateNeighbors(m_pVehicle->Pos(), m_dViewDistance);
     }
@@ -245,6 +245,13 @@ Vector2D SteeringBehavior::CalculatePrioritized()
       if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
     }
 
+	if (On(go_close))
+	{
+		force = GoClose(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+
+		if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
+	}
+
     if (On(allignment))
     {
       force = Alignment(m_pVehicle->World()->Agents()) * m_dWeightAlignment;
@@ -269,6 +276,13 @@ Vector2D SteeringBehavior::CalculatePrioritized()
 
       if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
     }
+
+	if (On(go_close))
+	{
+		force = GoClose(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+
+		if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
+	}
 
     if (On(allignment))
     {
@@ -399,6 +413,11 @@ Vector2D SteeringBehavior::CalculateWeightedSum()
       m_vSteeringForce += Separation(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
     }
 
+	if (On(go_close))
+	{
+		m_vSteeringForce += GoClose(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+	}
+
     if (On(allignment))
     {
       m_vSteeringForce += Alignment(m_pVehicle->World()->Agents()) * m_dWeightAlignment;
@@ -415,6 +434,11 @@ Vector2D SteeringBehavior::CalculateWeightedSum()
     {
       m_vSteeringForce += SeparationPlus(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
     }
+
+	if (On(go_close))
+	{
+		m_vSteeringForce += SeparationPlus(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+	}
 
     if (On(allignment))
     {
@@ -1115,6 +1139,36 @@ Vector2D SteeringBehavior::Separation(const vector<Vehicle*> &neighbors)
   return SteeringForce;
 }
 
+//---------------------------- GoClose --------------------------------
+//
+// this calculates a force 
+//------------------------------------------------------------------------
+Vector2D SteeringBehavior::GoClose(const vector<Vehicle*> &neighbors)
+{
+	Vector2D SteeringForce;
+	float shorter_distance = 999999.0; // MAX_DISTANCE
+	Vector2D closest_neighbor;
+
+	for (unsigned int a = 0; a<neighbors.size(); ++a)
+	{
+		//make sure this agent isn't included in the calculations and that
+		//the agent being examined is close enough.
+		if ((neighbors[a] != m_pVehicle) && neighbors[a]->IsTagged())
+		{
+			Vector2D ToAgent = neighbors[a]->Pos() - m_pVehicle->Pos();
+			
+			if ((sqrt(ToAgent.x* ToAgent.x + ToAgent.y * ToAgent.y)) < shorter_distance) {
+				shorter_distance = (sqrt(ToAgent.x* ToAgent.x + ToAgent.y * ToAgent.y));
+				closest_neighbor = ToAgent;
+			}
+		}
+	}
+
+	//scale the force proportional to the closest agent distance  
+	SteeringForce += Vec2DNormalize(closest_neighbor) / closest_neighbor.Length();
+
+	return SteeringForce;
+}
 
 //---------------------------- Alignment ---------------------------------
 //

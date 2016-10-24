@@ -63,6 +63,7 @@ private:
 		wander = 0x00010,
 		cohesion = 0x00020,
 		separation = 0x00040,
+		go_close = 0x00060,
 		allignment = 0x00080,
 		obstacle_avoidance = 0x00100,
 		wall_avoidance = 0x00200,
@@ -240,6 +241,7 @@ private:
 	Vector2D Cohesion(const std::vector<Vehicle*> &agents);
 
 	Vector2D Separation(const std::vector<Vehicle*> &agents);
+	Vector2D GoClose(const std::vector<Vehicle*> &neighbors);
 
 	Vector2D Alignment(const std::vector<Vehicle*> &agents);
 
@@ -323,6 +325,7 @@ public:
 	void EvadeOn(Vehicle* v) { m_iFlags |= evade; m_pTargetAgent1 = v; }
 	void CohesionOn() { m_iFlags |= cohesion; }
 	void SeparationOn() { m_iFlags |= separation; }
+	void GoCloseOn() { m_iFlags |= go_close; }
 	void AlignmentOn() { m_iFlags |= allignment; }
 	void ObstacleAvoidanceOn() { m_iFlags |= obstacle_avoidance; }
 	void WallAvoidanceOn() { m_iFlags |= wall_avoidance; }
@@ -331,7 +334,7 @@ public:
 	void HideOn(Vehicle* v) { m_iFlags |= hide; m_pTargetAgent1 = v; }
 	void OffsetPursuitOn(Vehicle* v1, const Vector2D offset) { m_iFlags |= offset_pursuit; m_vOffset = offset; m_pTargetAgent1 = v1; }
 	void FlockingOn() { CohesionOn(); AlignmentOn(); SeparationOn(); WanderOn(); }
-	void FlockingVOn(Vehicle* v) { OffsetPursuitOn(v, Vector2D(-5,-5)); SeparationOn(); WanderOn(); }
+	void FlockingVOn() { AlignmentOn();  SeparationOn(); GoCloseOn(); }
 	void AlwaysForwardOn() { m_iFlags |= always_forward; }
 
 	void FleeOff() { if (On(flee))   m_iFlags ^= flee; }
@@ -342,6 +345,7 @@ public:
 	void EvadeOff() { if (On(evade)) m_iFlags ^= evade; }
 	void CohesionOff() { if (On(cohesion)) m_iFlags ^= cohesion; }
 	void SeparationOff() { if (On(separation)) m_iFlags ^= separation; }
+	void GoCloseOff() { if (On(go_close)) m_iFlags ^= go_close; }
 	void AlignmentOff() { if (On(allignment)) m_iFlags ^= allignment; }
 	void ObstacleAvoidanceOff() { if (On(obstacle_avoidance)) m_iFlags ^= obstacle_avoidance; }
 	void WallAvoidanceOff() { if (On(wall_avoidance)) m_iFlags ^= wall_avoidance; }
@@ -360,6 +364,7 @@ public:
 	bool isEvadeOn() { return On(evade); }
 	bool isCohesionOn() { return On(cohesion); }
 	bool isSeparationOn() { return On(separation); }
+	bool isGoCloseOn() { return On(go_close); }
 	bool isAlignmentOn() { return On(allignment); }
 	bool isObstacleAvoidanceOn() { return On(obstacle_avoidance); }
 	bool isWallAvoidanceOn() { return On(wall_avoidance); }
