@@ -331,6 +331,7 @@ public:
 	void HideOn(Vehicle* v) { m_iFlags |= hide; m_pTargetAgent1 = v; }
 	void OffsetPursuitOn(Vehicle* v1, const Vector2D offset) { m_iFlags |= offset_pursuit; m_vOffset = offset; m_pTargetAgent1 = v1; }
 	void FlockingOn() { CohesionOn(); AlignmentOn(); SeparationOn(); WanderOn(); }
+	void FlockingVOn(Vehicle* v) { OffsetPursuitOn(v, Vector2D(-5,-5)); SeparationOn(); WanderOn(); }
 	void AlwaysForwardOn() { m_iFlags |= always_forward; }
 
 	void FleeOff() { if (On(flee))   m_iFlags ^= flee; }
