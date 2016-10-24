@@ -816,7 +816,7 @@ Vector2D SteeringBehavior::GoForward()
 {
 	//be included when using time independent framerate.
 	m_pVehicle->TimeElapsed();
-	Vector2D target = m_pVehicle->SmoothedHeading()*0.7+ m_pVehicle->Heading()*0.3;
+	Vector2D target = m_pVehicle->SmoothedHeading();
 	////project the target into world space
 	Vector2D Target = PointToWorldSpace(target,
 		m_pVehicle->Heading(),
