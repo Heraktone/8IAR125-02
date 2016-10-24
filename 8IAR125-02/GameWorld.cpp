@@ -58,10 +58,10 @@ GameWorld::GameWorld(int cx, int cy) :
 	pLeader = new LeaderAgent(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
-		Vector2D(100, 100),            //velocity
+		Vector2D(0, 0),            //velocity
 		Prm.VehicleMass,          //mass
-		Prm.MaxSteeringForce/2,     //max force
-		Prm.MaxSpeed,             //max velocity
+		Prm.MaxSteeringForce,     //max force
+		Prm.MaxSpeed / 2,             //max velocity
 		Prm.MaxTurnRatePerSecond, //max turn rate
 		Prm.VehicleScale);        //scale
 
@@ -92,9 +92,9 @@ GameWorld::GameWorld(int cx, int cy) :
 	pLeader = new PlayerAgent(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
-		Vector2D(0, 0),            //velocity
+		Vector2D(100, 100),            //velocity
 		Prm.VehicleMass,          //mass
-		Prm.MaxSteeringForce,     //max force
+		Prm.MaxSteeringForce/2,     //max force
 		Prm.MaxSpeed,             //max velocity
 		Prm.MaxTurnRatePerSecond, //max turn rate
 		Prm.VehicleScale);        //scale
