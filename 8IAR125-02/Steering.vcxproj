@@ -152,6 +152,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="ParamLoader.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="PlayerAgent.cpp" />
     <ClCompile Include="SteeringBehaviors.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="ParamLoader.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="PlayerAgent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SteeringBehaviors.h" />
     <ClInclude Include="Vehicle.h" />

@@ -130,7 +130,7 @@ Vector2D SteeringBehavior::Calculate()
 
 //------------------------- ForwardComponent -----------------------------
 //
-//  returns the forward oomponent of the steering force
+//  returns the forward component of the steering force
 //------------------------------------------------------------------------
 double SteeringBehavior::ForwardComponent()
 {
@@ -352,6 +352,12 @@ Vector2D SteeringBehavior::CalculatePrioritized()
     if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
   }
 
+  if (On(always_forward))
+  {
+	  force = GoForward() * m_dWeightCohesion;
+	  if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
+  }
+
   return m_vSteeringForce;
 }
 
@@ -477,6 +483,11 @@ Vector2D SteeringBehavior::CalculateWeightedSum()
   }
 
   m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+  if (On(always_forward))
+  {
+	  m_vSteeringForce += GoForward()* m_dWeightCohesion;
+  }
  
   return m_vSteeringForce;
 }
@@ -678,6 +689,18 @@ Vector2D SteeringBehavior::CalculateDithered()
       return m_vSteeringForce;
     }
   }
+
+  if (On(always_forward))
+  {
+	  m_vSteeringForce += GoForward();
+
+	  if (!m_vSteeringForce.isZero())
+	  {
+		  m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+		  return m_vSteeringForce;
+	  }
+  }
  
   return m_vSteeringForce;
 }
@@ -788,6 +811,21 @@ Vector2D SteeringBehavior::Pursuit(const Vehicle* evader)
   return Seek(evader->Pos() + evader->Velocity() * LookAheadTime);
 }
 
+//Use for player to move the agent forward
+Vector2D SteeringBehavior::GoForward()
+{
+	//be included when using time independent framerate.
+	m_pVehicle->TimeElapsed();
+	Vector2D target = m_pVehicle->SmoothedHeading();
+	////project the target into world space
+	Vector2D Target = PointToWorldSpace(target,
+		m_pVehicle->Heading(),
+		m_pVehicle->Side(),
+		m_pVehicle->Pos());
+
+	//and steer towards it
+	return (Target - m_pVehicle->Pos())*m_pVehicle->MaxForce();
+}
 
 //----------------------------- Evade ------------------------------------
 //

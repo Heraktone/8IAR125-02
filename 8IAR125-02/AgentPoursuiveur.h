@@ -19,6 +19,7 @@ public:
 		Vehicle*   v_agent_leader);
 
 	void        Go();
+	void		GoV();
 
 	~AgentPoursuiveur();
 

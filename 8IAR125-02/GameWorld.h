@@ -132,6 +132,7 @@ public:
   bool  RenderWanderCircle()const{return m_bShowWanderCircle;}
   bool  RenderFeelers()const{return m_bShowFeelers;}
   bool  RenderSteeringForce()const{return m_bShowSteeringForce;}
+  bool	hasPlayer = true;
 
   bool  RenderFPS()const{return m_bShowFPS;}
   void  ToggleShowFPS(){m_bShowFPS = !m_bShowFPS;}
