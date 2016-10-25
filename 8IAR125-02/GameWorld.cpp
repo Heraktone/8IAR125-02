@@ -89,7 +89,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		ap_vehicle->Go();
 	}
 
-	pLeader = new PlayerAgent(this,
+	player = new PlayerAgent(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
 		Vector2D(100, 100),            //velocity
@@ -98,7 +98,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		Prm.MaxSpeed,             //max velocity
 		Prm.MaxTurnRatePerSecond, //max turn rate
 		Prm.VehicleScale);        //scale
-
+	pLeader = player;
 	m_Vehicles.push_back(pLeader);
 	m_pCellSpace->AddEntity(pLeader);
 
@@ -398,14 +398,14 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
 
 	//Take a sharp turn to the left
 	case 'A':
-		if (hasPlayer) {
-			static_cast<PlayerAgent*>(Agents().front())->TurnLeft();
+		if (player) {
+			player->TurnLeft();
 		}
 		break;
 	//Take a sharp turn to the right
 	case 'D':
-		if (hasPlayer) {
-			static_cast<PlayerAgent*>(Agents().front())->TurnRight();
+		if (player) {
+			player->TurnRight();
 		}
 		break;
 	}//end switch
