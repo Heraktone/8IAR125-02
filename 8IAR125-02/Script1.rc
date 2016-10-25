@@ -56,6 +56,12 @@ BEGIN
     BEGIN
         MENUITEM "On/Off",                      ID_MENU_SMOOTHING
     END
+	POPUP "Agents"
+	BEGIN
+		MENUITEM "+Controllable Agent",			ID_MENU_NEWAGENT
+		MENUITEM "+NonControllable Agent",		ID_MENU_NEWNONAGENT
+		MENUITEM "Higer Offset",				ID_MENU_HIGHEROFFSET
+	END
 END
 
 

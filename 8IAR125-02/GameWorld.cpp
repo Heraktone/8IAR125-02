@@ -607,6 +607,54 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 
 	break;
 
+	case ID_MENU_NEWAGENT:
+	{
+		Vehicle* pLeader = new PlayerAgent(this,
+			Vector2D(RandomClamped(), RandomClamped()),                 //initial position
+			RandFloat()*TwoPi,        //start rotation
+			Vector2D(100, 100),            //velocity
+			Prm.VehicleMass,          //mass
+			Prm.MaxSteeringForce / 2,     //max force
+			Prm.MaxSpeed,             //max velocity
+			Prm.MaxTurnRatePerSecond, //max turn rate
+			Prm.VehicleScale);        //scale
+
+		m_Vehicles.push_back(pLeader);
+		m_pCellSpace->AddEntity(pLeader);
+	}
+	break;
+
+	case ID_MENU_NEWNONAGENT:
+	{
+		Vehicle* pLeader = new LeaderAgent(this,
+			Vector2D(RandomClamped(), RandomClamped()),                 //initial position
+			RandFloat()*TwoPi,        //start rotation
+			Vector2D(0, 0),            //velocity
+			Prm.VehicleMass,          //mass
+			Prm.MaxSteeringForce,     //max force
+			Prm.MaxSpeed / 2,             //max velocity
+			Prm.MaxTurnRatePerSecond, //max turn rate
+			Prm.VehicleScale);        //scale
+
+		m_Vehicles.push_back(pLeader);
+		m_pCellSpace->AddEntity(pLeader);
+	}
+
+	break;
+
+	case ID_MENU_HIGHEROFFSET:
+	{
+		for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
+		{
+			/*if ((m_Vehicles[i]->Steering()->GetOffset())) {
+				m_Vehicles[i]->Steering()->SetOffset(Vector2D(m_Vehicles[i]->Steering()->GetOffset().x + 5, 0));
+			*/
+		}
+	}
+
+	break;
+
+	
 	}//end switch
 }
 
