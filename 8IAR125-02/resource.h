@@ -19,6 +19,8 @@
 #define ID_MENU_SMOOTHING               40014
 #define IDM_PARTITION_VIEW_NEIGHBORS    40015
 #define ID_MENU_NEWAGENT                40016
+#define ID_MENU_NEWNONAGENT             40017
+#define ID_MENU_HIGHEROFFSET            40018
 
 // Next default values for new objects
 // 
