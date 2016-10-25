@@ -60,7 +60,7 @@ BEGIN
 	BEGIN
 		MENUITEM "+Controllable Agent",			ID_MENU_NEWAGENT
 		MENUITEM "+NonControllable Agent",		ID_MENU_NEWNONAGENT
-		MENUITEM "Higer Offset",				ID_MENU_HIGHEROFFSET
+		MENUITEM "Higher Offset",				ID_MENU_HIGHEROFFSET
 	END
 END
 
