@@ -646,9 +646,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 	{
 		for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
 		{
-			/*if ((m_Vehicles[i]->Steering()->GetOffset())) {
-				m_Vehicles[i]->Steering()->SetOffset(Vector2D(m_Vehicles[i]->Steering()->GetOffset().x + 5, 0));
-			*/
+			m_Vehicles[i]->Steering()->SetOffset(m_Vehicles[i]->Steering()->GetOffset() + Vector2D(-5, 0));
 		}
 	}
 

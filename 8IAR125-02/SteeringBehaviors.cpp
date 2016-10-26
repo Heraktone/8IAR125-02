@@ -67,7 +67,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent):
   //create a Path
   m_pPath = new Path();
   m_pPath->LoopOn();
-
+  m_vOffset = Vector2D(0,0);
 }
 
 //---------------------------------dtor ----------------------------------
